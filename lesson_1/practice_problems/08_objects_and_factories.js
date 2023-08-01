@@ -37,7 +37,10 @@ function book(title, author) {
     read: false,
 
     getDescription() {
-      return `${this.title} was written by ${this.author}.`;
+      return (
+        `${this.title} was written by ${this.author}. ` +
+        `I have${this.read ? "" : "n't"} read it.`
+      );
     },
 
     readBook() {
@@ -65,3 +68,7 @@ book3.readBook();
 console.log(book1.read);
 console.log(book2.read);
 console.log(book3.read);
+
+console.log(book1.getDescription());
+console.log(book2.getDescription());
+console.log(book3.getDescription());
