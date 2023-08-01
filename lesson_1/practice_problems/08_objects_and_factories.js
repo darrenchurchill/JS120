@@ -39,6 +39,10 @@ function book(title, author) {
     getDescription() {
       return `${this.title} was written by ${this.author}.`;
     },
+
+    readBook() {
+      this.read = true;
+    },
   };
 }
 
@@ -49,6 +53,14 @@ let book3 = book("Aunts aren't Gentlemen", "PG Wodehouse");
 console.log(book1.getDescription());
 console.log(book2.getDescription());
 console.log(book3.getDescription());
+
+console.log(book1.read);
+console.log(book2.read);
+console.log(book3.read);
+
+book1.readBook();
+book2.readBook();
+book3.readBook();
 
 console.log(book1.read);
 console.log(book2.read);
