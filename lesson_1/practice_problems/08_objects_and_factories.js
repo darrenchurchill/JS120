@@ -30,32 +30,20 @@
  *    Get Description
  */
 
-let book1 = {
-  title: "Mythos",
-  author: "Stephen Fry",
+function book(title, author) {
+  return {
+    title: title,
+    author: author,
 
-  getDescription() {
-    return `${this.title} was written by ${this.author}.`;
-  },
-};
+    getDescription() {
+      return `${this.title} was written by ${this.author}.`;
+    },
+  };
+}
 
-let book2 = {
-  title: "Me Talk Pretty One Day",
-  author: "David Sedaris",
-
-  getDescription() {
-    return `${this.title} was written by ${this.author}.`;
-  },
-};
-
-let book3 = {
-  title: "Aunts aren't Gentlemen",
-  author: "PG Wodehouse",
-
-  getDescription() {
-    return `${this.title} was written by ${this.author}.`;
-  },
-};
+let book1 = book("Mythos", "Stephen Fry");
+let book2 = book("Me Talk Pretty One Day", "David Sedaris");
+let book3 = book("Aunts aren't Gentlemen", "PG Wodehouse");
 
 console.log(book1.getDescription());
 console.log(book2.getDescription());
