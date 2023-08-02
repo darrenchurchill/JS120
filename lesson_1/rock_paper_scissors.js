@@ -10,7 +10,6 @@ const readline = require("readline-sync");
 // eslint-disable-next-line max-lines-per-function
 function createPlayer(playerType) {
   return {
-    // possible state: player name?
     playerType,
     move: null,
 
