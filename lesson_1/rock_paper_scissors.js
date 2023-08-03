@@ -7,39 +7,39 @@
 
 const readline = require("readline-sync");
 
-// eslint-disable-next-line max-lines-per-function
-function createPlayer(playerType) {
+function createHuman() {
   return {
-    playerType,
     move: null,
 
     choose() {
-      if (this.isHuman()) {
-        let choice;
+      let choice;
 
-        while (true) {
-          console.log("Please choose rock, paper, or scissors:");
-          choice = readline.question();
-          if (["rock", "paper", "scissors"].includes(choice)) break;
-          console.log("Sorry, invalid choice.");
-        }
-        this.move = choice;
-      } else {
-        const choices = ["rock", "paper", "scissors"];
-        let randomIndex = Math.floor(Math.random() * choices.length);
-        this.move = choices[randomIndex];
+      while (true) {
+        console.log("Please choose rock, paper, or scissors:");
+        choice = readline.question();
+        if (["rock", "paper", "scissors"].includes(choice)) break;
+        console.log("Sorry, invalid choice.");
       }
+      this.move = choice;
     },
+  };
+}
 
-    isHuman() {
-      return this.playerType === "human";
+function createComputer() {
+  return {
+    move: null,
+
+    choose() {
+      const choices = ["rock", "paper", "scissors"];
+      let randomIndex = Math.floor(Math.random() * choices.length);
+      this.move = choices[randomIndex];
     },
   };
 }
 
 const RPSGame = {
-  human: createPlayer("human"),
-  computer: createPlayer("computer"),
+  human: createHuman(),
+  computer: createComputer(),
 
   displayWelcomeMessage() {
     console.log("Welcome to Rock, Paper, Scissors!");
