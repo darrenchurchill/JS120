@@ -7,10 +7,16 @@
 
 const readline = require("readline-sync");
 
-function createHuman() {
+function createPlayer() {
   return {
     move: null,
+  };
+}
 
+function createHuman() {
+  let player = createPlayer();
+
+  let human = {
     choose() {
       let choice;
 
@@ -23,18 +29,22 @@ function createHuman() {
       this.move = choice;
     },
   };
+
+  return Object.assign(player, human);
 }
 
 function createComputer() {
-  return {
-    move: null,
+  let player = createPlayer();
 
+  let computer = {
     choose() {
       const choices = ["rock", "paper", "scissors"];
       let randomIndex = Math.floor(Math.random() * choices.length);
       this.move = choices[randomIndex];
     },
   };
+
+  return Object.assign(player, computer);
 }
 
 const RPSGame = {
