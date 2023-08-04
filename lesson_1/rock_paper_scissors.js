@@ -26,16 +26,20 @@ function createHuman() {
   let player = createPlayer();
 
   let human = {
-    choose() {
+    choose(choices) {
       let choice;
+      let choiceNames = choices.getChoiceNames();
 
       while (true) {
-        console.log("Please choose rock, paper, or scissors:");
+        console.log("Please make a choice:");
+        console.log(`Choices: ${choiceNames.join(", ")}`);
+
         choice = readline.question();
-        if (["rock", "paper", "scissors"].includes(choice)) break;
+        if (choiceNames.includes(choice)) break;
         console.log("Sorry, invalid choice.");
       }
-      this.move = choice;
+
+      this.move = choices.getChoiceByName(choice);
     },
   };
 
@@ -46,29 +50,76 @@ function createComputer() {
   let player = createPlayer();
 
   let computer = {
-    choose() {
-      const choices = ["rock", "paper", "scissors"];
-      let randomIndex = Math.floor(Math.random() * choices.length);
-      this.move = choices[randomIndex];
+    choose(choices) {
+      const choiceNames = choices.getChoiceNames();
+      let randomIndex = Math.floor(Math.random() * choiceNames.length);
+      this.move = choices.getChoiceByName(choiceNames[randomIndex]);
     },
   };
 
   return Object.assign(player, computer);
 }
 
+function createGameChoice(name) {
+  return {
+    name,
+    beatsChoices: null,
+
+    getName() {
+      return this.name;
+    },
+
+    setBeatsChoices(others) {
+      this.beatsChoices = others;
+    },
+
+    beatsOtherChoice(other) {
+      return this.beatsChoices.includes(other);
+    }
+  };
+}
+
+// eslint-disable-next-line max-lines-per-function
+function createGameChoices() {
+  let rock = createGameChoice("rock");
+  let paper = createGameChoice("paper");
+  let scissors = createGameChoice("scissors");
+
+  rock.setBeatsChoices([scissors]);
+  paper.setBeatsChoices([rock]);
+  scissors.setBeatsChoices([paper]);
+
+  return {
+    choices: {
+      rock,
+      paper,
+      scissors,
+    },
+
+    getChoiceByName(choiceName) {
+      return this.choices[choiceName];
+    },
+
+    getChoiceNames() {
+      return Object.keys(this.choices);
+    },
+  };
+}
+
 const RPSGame = {
   human: createHuman(),
   computer: createComputer(),
+  choices: createGameChoices(),
   winningScore: 5,
 
   displayWelcomeMessage() {
     console.log(
-      `Welcome to Rock, Paper, Scissors! First to ${this.winningScore} wins the game!`
+      `Welcome! First to ${this.winningScore} wins the game!`
     );
   },
 
   displayGoodbyeMessage() {
-    console.log("Thanks for playing Rock, Paper, Scissors. Goodbye!");
+    console.log("Thanks for playing. Goodbye!");
   },
 
   displayScore() {
@@ -76,8 +127,8 @@ const RPSGame = {
   },
 
   displayRoundWinner() {
-    console.log(`You chose: ${this.human.move}`);
-    console.log(`The computer chose: ${this.computer.move}`);
+    console.log(`You chose: ${this.human.move.getName()}`);
+    console.log(`The computer chose: ${this.computer.move.getName()}`);
 
     let roundWinner = this.getRoundWinner();
 
@@ -107,16 +158,12 @@ const RPSGame = {
     let humanMove = this.human.move;
     let computerMove = this.computer.move;
 
-    if ((humanMove === "rock" && computerMove === "scissors") ||
-        (humanMove === "paper" && computerMove === "rock") ||
-        (humanMove === "scissors" && computerMove === "paper")) {
+    if (humanMove.beatsOtherChoice(computerMove)) {
       this.human.wonRound();
       return this.human;
     }
 
-    if ((humanMove === "rock" && computerMove === "paper") ||
-        (humanMove === "paper" && computerMove === "scissors") ||
-        (humanMove === "scissors" && computerMove === "rock")) {
+    if (computerMove.beatsOtherChoice(humanMove)) {
       this.computer.wonRound();
       return this.computer;
     }
@@ -143,8 +190,8 @@ const RPSGame = {
 
   playRound() {
     this.displayScore();
-    this.human.choose();
-    this.computer.choose();
+    this.human.choose(this.choices);
+    this.computer.choose(this.choices);
     this.displayRoundWinner();
   },
 
