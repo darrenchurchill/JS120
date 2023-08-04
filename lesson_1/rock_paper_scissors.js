@@ -7,10 +7,23 @@
 
 const readline = require("readline-sync");
 
+// eslint-disable-next-line max-lines-per-function
 function createPlayer() {
   return {
     move: null,
+    moveHistory: {},
     score: 0,
+
+    makeMove(move) {
+      this.move = move;
+      this.addMoveToHistory(move);
+    },
+
+    addMoveToHistory(move) {
+      let moveName = move.getName();
+      if (!this.moveHistory[moveName]) this.moveHistory[moveName] = 0;
+      this.moveHistory[moveName] += 1;
+    },
 
     wonRound() {
       this.score += 1;
@@ -22,6 +35,7 @@ function createPlayer() {
   };
 }
 
+// eslint-disable-next-line max-lines-per-function
 function createHuman() {
   let player = createPlayer();
 
@@ -39,7 +53,11 @@ function createHuman() {
         console.log("Sorry, invalid choice.");
       }
 
-      this.move = choices.getChoiceByName(choice);
+      this.makeMove(choices.getChoiceByName(choice));
+    },
+
+    displayMoveHistory() {
+      console.log("Your moves:", this.moveHistory);
     },
   };
 
@@ -53,7 +71,11 @@ function createComputer() {
     choose(choices) {
       const choiceNames = choices.getChoiceNames();
       let randomIndex = Math.floor(Math.random() * choiceNames.length);
-      this.move = choices.getChoiceByName(choiceNames[randomIndex]);
+      this.makeMove(choices.getChoiceByName(choiceNames[randomIndex]));
+    },
+
+    displayMoveHistory() {
+      console.log("Computer moves:", this.moveHistory);
     },
   };
 
@@ -200,6 +222,8 @@ const RPSGame = {
 
   playRound() {
     this.displayScore();
+    this.human.displayMoveHistory();
+    this.computer.displayMoveHistory();
     this.human.choose(this.choices);
     this.computer.choose(this.choices);
     this.displayRoundWinner();
