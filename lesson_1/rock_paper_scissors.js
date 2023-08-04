@@ -132,6 +132,10 @@ const RPSGame = {
     console.log(`Current score: You: ${this.human.score} Computer: ${this.computer.score}`);
   },
 
+  displayBreak() {
+    console.log("------");
+  },
+
   displayRoundWinner() {
     console.log(`You chose: ${this.human.move.getName()}`);
     console.log(`The computer chose: ${this.computer.move.getName()}`);
@@ -199,6 +203,7 @@ const RPSGame = {
     this.human.choose(this.choices);
     this.computer.choose(this.choices);
     this.displayRoundWinner();
+    this.displayBreak();
   },
 
   playGameLoop() {
