@@ -84,16 +84,22 @@ function createGameChoices() {
   let rock = createGameChoice("rock");
   let paper = createGameChoice("paper");
   let scissors = createGameChoice("scissors");
+  let spock = createGameChoice("spock");
+  let lizard = createGameChoice("lizard");
 
-  rock.setBeatsChoices([scissors]);
-  paper.setBeatsChoices([rock]);
-  scissors.setBeatsChoices([paper]);
+  rock.setBeatsChoices([scissors, lizard]);
+  paper.setBeatsChoices([rock, spock]);
+  scissors.setBeatsChoices([paper, lizard]);
+  spock.setBeatsChoices([rock, scissors]);
+  lizard.setBeatsChoices([paper, spock]);
 
   return {
     choices: {
       rock,
       paper,
       scissors,
+      spock,
+      lizard
     },
 
     getChoiceByName(choiceName) {
