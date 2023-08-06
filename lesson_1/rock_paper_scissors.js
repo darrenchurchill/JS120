@@ -85,18 +85,18 @@ function createComputer() {
 function createGameChoice(name) {
   return {
     name,
-    beatsChoices: null,
+    winsAgainst: null,
 
     getName() {
       return this.name;
     },
 
-    setBeatsChoices(others) {
-      this.beatsChoices = others;
+    setWinsAgainst(others) {
+      this.winsAgainst = others;
     },
 
-    beatsOtherChoice(other) {
-      return this.beatsChoices.includes(other);
+    doesWinAgainst(other) {
+      return this.winsAgainst.includes(other);
     }
   };
 }
@@ -109,11 +109,11 @@ function createGameChoices() {
   let spock = createGameChoice("spock");
   let lizard = createGameChoice("lizard");
 
-  rock.setBeatsChoices([scissors, lizard]);
-  paper.setBeatsChoices([rock, spock]);
-  scissors.setBeatsChoices([paper, lizard]);
-  spock.setBeatsChoices([rock, scissors]);
-  lizard.setBeatsChoices([paper, spock]);
+  rock.setWinsAgainst([scissors, lizard]);
+  paper.setWinsAgainst([rock, spock]);
+  scissors.setWinsAgainst([paper, lizard]);
+  spock.setWinsAgainst([rock, scissors]);
+  lizard.setWinsAgainst([paper, spock]);
 
   return {
     choices: {
@@ -190,12 +190,12 @@ const RPSGame = {
     let humanMove = this.human.move;
     let computerMove = this.computer.move;
 
-    if (humanMove.beatsOtherChoice(computerMove)) {
+    if (humanMove.doesWinAgainst(computerMove)) {
       this.human.wonRound();
       return this.human;
     }
 
-    if (computerMove.beatsOtherChoice(humanMove)) {
+    if (computerMove.doesWinAgainst(humanMove)) {
       this.computer.wonRound();
       return this.computer;
     }
