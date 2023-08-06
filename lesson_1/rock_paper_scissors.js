@@ -16,11 +16,10 @@ function createPlayer() {
 
     makeMove(move) {
       this.move = move;
-      this.addMoveToHistory(move);
     },
 
-    addMoveToHistory(move) {
-      let moveName = move.getName();
+    addMoveToHistory() {
+      let moveName = this.move.getName();
       if (!this.moveHistory[moveName]) this.moveHistory[moveName] = 0;
       this.moveHistory[moveName] += 1;
     },
@@ -64,14 +63,33 @@ function createHuman() {
   return Object.assign(player, human);
 }
 
+// eslint-disable-next-line max-lines-per-function
 function createComputer() {
   let player = createPlayer();
 
   let computer = {
-    choose(choices) {
-      const choiceNames = choices.getChoiceNames();
+    choose(choices, opponentHistory) {
+      const choiceNames = this.getChoiceNames(choices, opponentHistory);
       let randomIndex = Math.floor(Math.random() * choiceNames.length);
       this.makeMove(choices.getChoiceByName(choiceNames[randomIndex]));
+    },
+
+    getChoiceNames(choices, opponentHistory) {
+      if (Object.keys(opponentHistory).length === 0) {
+        return choices.getChoiceNames();
+      }
+
+      let result = [];
+
+      for (let [choiceName, choiceCount] of Object.entries(opponentHistory)) {
+        let choice = choices.getChoiceByName(choiceName);
+        let winningChoices = choice.losesAgainst.flatMap((winningChoice) => {
+          return Array(choiceCount).fill(winningChoice.getName());
+        });
+        result.push(...winningChoices);
+      }
+
+      return result;
     },
 
     displayMoveHistory() {
@@ -86,6 +104,7 @@ function createGameChoice(name) {
   return {
     name,
     winsAgainst: null,
+    losesAgainst: null,
 
     getName() {
       return this.name;
@@ -95,13 +114,17 @@ function createGameChoice(name) {
       this.winsAgainst = others;
     },
 
+    setLosesAgainst(others) {
+      this.losesAgainst = others;
+    },
+
     doesWinAgainst(other) {
       return this.winsAgainst.includes(other);
     }
   };
 }
 
-// eslint-disable-next-line max-lines-per-function
+// eslint-disable-next-line max-lines-per-function, max-statements
 function createGameChoices() {
   let rock = createGameChoice("rock");
   let paper = createGameChoice("paper");
@@ -114,6 +137,12 @@ function createGameChoices() {
   scissors.setWinsAgainst([paper, lizard]);
   spock.setWinsAgainst([rock, scissors]);
   lizard.setWinsAgainst([paper, spock]);
+
+  rock.setLosesAgainst([paper, spock]);
+  paper.setLosesAgainst([scissors, lizard]);
+  scissors.setLosesAgainst([rock, spock]);
+  spock.setLosesAgainst([paper, lizard]);
+  lizard.setLosesAgainst([rock, scissors]);
 
   return {
     choices: {
@@ -225,7 +254,9 @@ const RPSGame = {
     this.human.displayMoveHistory();
     this.computer.displayMoveHistory();
     this.human.choose(this.choices);
-    this.computer.choose(this.choices);
+    this.computer.choose(this.choices, this.human.moveHistory);
+    this.human.addMoveToHistory();
+    this.computer.addMoveToHistory();
     this.displayRoundWinner();
     this.displayBreak();
   },
