@@ -7,13 +7,31 @@
  * invoices.
  */
 
+// eslint-disable-next-line max-lines-per-function
 function createInvoice(services) {
   return Object.assign(
     {
       phone: 3000,
       internet: 5500,
+      payments: [],
+
       total() {
         return this.phone + this.internet;
+      },
+
+      amountDue() {
+        return (
+          this.total() -
+          this.payments.reduce((tot, pmt) => tot + pmt.total(), 0)
+        );
+      },
+
+      addPayment(pmt) {
+        this.addPayments([pmt]);
+      },
+
+      addPayments(pmts) {
+        this.payments.push(...pmts);
       },
     },
     services
@@ -48,4 +66,4 @@ let payment3 = createPayment({ phone: 1000 });
 
 invoice.addPayment(payment1);
 invoice.addPayments([payment2, payment3]);
-invoice.amountDue();       // this should return 0
+console.log(invoice.amountDue());       // this should return 0
