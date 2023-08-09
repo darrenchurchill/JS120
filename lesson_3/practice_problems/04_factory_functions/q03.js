@@ -15,7 +15,16 @@
  */
 
 function createInvoice(services) {
-  // implement the factory function here
+  return Object.assign(
+    {
+      phone: 3000,
+      internet: 5500,
+      total() {
+        return this.phone + this.internet;
+      },
+    },
+    services
+  );
 }
 
 function invoiceTotal(invoices) {
