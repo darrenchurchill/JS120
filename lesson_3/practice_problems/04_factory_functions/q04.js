@@ -18,7 +18,20 @@
  */
 
 function createPayment(services) {
-  // implement the factory function here
+  return Object.assign(
+    {
+      total() {
+        let total = 0;
+        if (this.amount !== undefined) total += this.amount;
+        else {
+          if (this.phone !== undefined) total += this.phone;
+          if (this.internet !== undefined) total += this.internet;
+        }
+        return total;
+      },
+    },
+    services
+  );
 }
 
 function paymentTotal(payments) {
