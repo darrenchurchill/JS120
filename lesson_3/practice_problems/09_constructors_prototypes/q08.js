@@ -11,7 +11,7 @@
  */
 
 function User(first, last) {
-  if (this === global) {
+  if (!(this instanceof User)) {
     return new User(first, last);
   }
   this.name = `${first} ${last}`;
