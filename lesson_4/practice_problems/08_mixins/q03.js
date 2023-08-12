@@ -21,17 +21,21 @@
  * `Catamaran` and the wheeled vehicle classes.
  */
 
-const Movable = {
+class Vehicle {
+  constructor(kmTravelledPerLiter, fuelCapInLiter) {
+    this.fuelEfficiency = kmTravelledPerLiter;
+    this.fuelCap = fuelCapInLiter;
+  }
+
   range() {
     return this.fuelCap *  this.fuelEfficiency;
   }
-};
+}
 
-class WheeledVehicle {
+class WheeledVehicle extends Vehicle {
   constructor(tirePressure, kmTravelledPerLiter, fuelCapInLiter) {
+    super(kmTravelledPerLiter, fuelCapInLiter);
     this.tires = tirePressure;
-    this.fuelEfficiency = kmTravelledPerLiter;
-    this.fuelCap = fuelCapInLiter;
   }
 
   tirePressure(tireIdx) {
@@ -42,8 +46,6 @@ class WheeledVehicle {
     this.tires[tireIdx] = pressure;
   }
 }
-
-Object.assign(WheeledVehicle.prototype, Movable);
 
 class Auto extends WheeledVehicle {
   constructor() {
@@ -59,14 +61,11 @@ class Motorcycle extends WheeledVehicle {
   }
 }
 
-class Catamaran {
+class Catamaran extends Vehicle {
   constructor(propellerCount, hullCount, kmTravelledPerLiter, fuelCapInLiter) {
     // catamaran specific logic
+    super(kmTravelledPerLiter, fuelCapInLiter);
     this.propellerCount = propellerCount;
     this.hullCount = hullCount;
-    this.fuelEfficiency = kmTravelledPerLiter;
-    this.fuelCap = fuelCapInLiter;
   }
 }
-
-Object.assign(Catamaran.prototype, Movable);
