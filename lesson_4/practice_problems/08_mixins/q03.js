@@ -21,6 +21,12 @@
  * `Catamaran` and the wheeled vehicle classes.
  */
 
+const Movable = {
+  range() {
+    return this.fuelCap *  this.fuelEfficiency;
+  }
+};
+
 class WheeledVehicle {
   constructor(tirePressure, kmTravelledPerLiter, fuelCapInLiter) {
     this.tires = tirePressure;
@@ -35,11 +41,9 @@ class WheeledVehicle {
   inflateTire(tireIdx, pressure) {
     this.tires[tireIdx] = pressure;
   }
-
-  range() {
-    return this.fuelCap *  this.fuelEfficiency;
-  }
 }
+
+Object.assign(WheeledVehicle.prototype, Movable);
 
 class Auto extends WheeledVehicle {
   constructor() {
@@ -64,3 +68,5 @@ class Catamaran {
     this.fuelCap = fuelCapInLiter;
   }
 }
+
+Object.assign(Catamaran.prototype, Movable);
