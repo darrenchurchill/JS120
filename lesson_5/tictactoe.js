@@ -77,8 +77,58 @@ class TTTGame {
   }
 
   play() {
-    // STUB
     // orchestrate game play
+    this.displayWelcomeMessage();
+
+    while (true) {
+      this.displayBoard();
+
+      this.firstPlayerMoves();
+      if (this.gameOver()) break;
+
+      this.secondPlayerMoves();
+      if (this.gameOver()) break;
+
+      break; // execute loop just once for now
+    }
+
+    this.displayResults();
+    this.displayGoodByeMessage();
+  }
+
+  displayWelcomeMessage() {
+    // STUB
+    // show a welcome message
+  }
+
+  displayGoodByeMessage() {
+    // STUB
+    // show a goodbye message
+  }
+
+  displayResults() {
+    // STUB
+    // show the results of this game (win, lose, tie)
+  }
+
+  displayBoard() {
+    // STUB
+    // display the board, including its current state
+  }
+
+  firstPlayerMoves() {
+    // STUB
+    // the first player makes a move
+  }
+
+  secondPlayerMoves() {
+    // STUB
+    // the second player makes a move
+  }
+
+  gameOver() {
+    // STUB
+    return false;
   }
 }
 
