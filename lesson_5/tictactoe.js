@@ -9,19 +9,33 @@
  * A command-line tic tac toe game against the computer
  */
 
+class Square {
+  static EMPTY_SQUARE = " ";
+  static HUMAN_MARKER = "X";
+  static COMPUTER_MARKER = "O";
+
+  constructor(marker = Square.EMPTY_SQUARE) {
+    this.marker = marker;
+  }
+
+  toString() {
+    return this.marker;
+  }
+}
+
 class Board {
   constructor() {
     // What should the data structure store? Strings? Numbers? Square Objects?
     this.squares = {
-      1: "X",
-      2: " ",
-      3: " ",
-      4: " ",
-      5: "O",
-      6: " ",
-      7: " ",
-      8: " ",
-      9: " ",
+      1: new Square(),
+      2: new Square(),
+      3: new Square(Square.HUMAN_MARKER),
+      4: new Square(),
+      5: new Square(Square.COMPUTER_MARKER),
+      6: new Square(),
+      7: new Square(Square.HUMAN_MARKER),
+      8: new Square(),
+      9: new Square(),
     };
   }
 
@@ -40,13 +54,6 @@ class Board {
     console.log(`  ${this.squares[7]}  |  ${this.squares[8]}  |  ${this.squares[9]}`);
     console.log("     |     |");
     console.log("");
-  }
-}
-
-class Square {
-  constructor() {
-    // STUB
-    // We need some way to keep track of this square's marker.
   }
 }
 
