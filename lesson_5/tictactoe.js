@@ -97,13 +97,11 @@ class TTTGame {
   }
 
   displayWelcomeMessage() {
-    // STUB
-    // show a welcome message
+    console.log("Welcome to Tic Tac Toe!");
   }
 
   displayGoodByeMessage() {
-    // STUB
-    // show a goodbye message
+    console.log("Thanks for playing Tic Tac Toe! Goodbye!");
   }
 
   displayResults() {
