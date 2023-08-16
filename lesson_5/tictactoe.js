@@ -109,10 +109,10 @@ class TTTGame {
     while (true) {
       this.board.display();
 
-      this.firstPlayerMoves();
+      this.humanMoves();
       if (this.gameOver()) break;
 
-      this.secondPlayerMoves();
+      this.computerMoves();
       if (this.gameOver()) break;
 
       break; // execute loop just once for now
@@ -135,14 +135,12 @@ class TTTGame {
     // show the results of this game (win, lose, tie)
   }
 
-  firstPlayerMoves() {
-    // STUB
-    // the first player makes a move
+  humanMoves() {
+    console.log("human moves");
   }
 
-  secondPlayerMoves() {
-    // STUB
-    // the second player makes a move
+  computerMoves() {
+    console.log("computer moves");
   }
 
   gameOver() {
