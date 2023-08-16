@@ -85,20 +85,21 @@ class Player {
 
 class Human extends Player {
   constructor() {
-    // STUB
+    super();
   }
 }
 
 class Computer extends Player {
   constructor() {
-    // STUB
+    super();
   }
 }
 
 class TTTGame {
   constructor() {
-    // Need a board and two players
     this.board = new Board();
+    this.human = new Human();
+    this.computer = new Computer();
   }
 
   play() {
