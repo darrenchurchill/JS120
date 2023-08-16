@@ -75,15 +75,12 @@ class Marker {
 }
 
 class Player {
-  constructor() {
-    // STUB
-    // maybe a "marker" to keep track of this player's symbol (i.e., "X" or "O")
+  constructor(marker) {
+    this.marker = marker;
   }
 
-  mark() {
-    // STUB
-    // We need a way to mark the board with this player's marker.
-    // How do we access the board?
+  getMarker() {
+    return this.marker;
   }
 
   play() {
@@ -95,13 +92,13 @@ class Player {
 
 class Human extends Player {
   constructor() {
-    super();
+    super(Square.HUMAN_MARKER);
   }
 }
 
 class Computer extends Player {
   constructor() {
-    super();
+    super(Square.COMPUTER_MARKER);
   }
 }
 
@@ -157,7 +154,7 @@ class TTTGame {
       console.log("");
     }
 
-    this.board.markSquareAt(choice, Square.HUMAN_MARKER);
+    this.board.markSquareAt(choice, this.human.getMarker());
   }
 
   computerMoves() {
