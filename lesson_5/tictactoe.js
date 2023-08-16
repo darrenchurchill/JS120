@@ -85,12 +85,6 @@ class Player {
   getMarker() {
     return this.marker;
   }
-
-  play() {
-    // STUB
-    // We need a way for each player to play the game.
-    // Do we need access to the board?
-  }
 }
 
 class Human extends Player {
