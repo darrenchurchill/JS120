@@ -121,6 +121,7 @@ class TTTGame {
       if (this.gameOver()) break;
 
       this.computerMoves();
+      this.board.display();
       if (this.gameOver()) break;
 
       break; // execute loop just once for now
@@ -158,7 +159,8 @@ class TTTGame {
   }
 
   computerMoves() {
-    console.log("computer moves");
+    let choice = Math.floor((9 * Math.random()) + 1);
+    this.board.markSquareAt(choice, this.computer.getMarker());
   }
 
   gameOver() {
