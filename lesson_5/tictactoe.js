@@ -9,6 +9,8 @@
  * A command-line tic tac toe game against the computer
  */
 
+let readline = require("readline-sync");
+
 class Square {
   static EMPTY_SQUARE = " ";
   static HUMAN_MARKER = "X";
@@ -20,6 +22,10 @@ class Square {
 
   toString() {
     return this.marker;
+  }
+
+  setMarker(marker) {
+    this.marker = marker;
   }
 }
 
@@ -47,6 +53,10 @@ class Board {
     console.log(`  ${this.squares[7]}  |  ${this.squares[8]}  |  ${this.squares[9]}`);
     console.log("     |     |");
     console.log("");
+  }
+
+  markSquareAt(key, marker) {
+    this.squares[key].setMarker(marker);
   }
 }
 
@@ -110,6 +120,7 @@ class TTTGame {
       this.board.display();
 
       this.humanMoves();
+      this.board.display();
       if (this.gameOver()) break;
 
       this.computerMoves();
@@ -136,7 +147,17 @@ class TTTGame {
   }
 
   humanMoves() {
-    console.log("human moves");
+    let choice;
+
+    while (true) {
+      choice = readline.questionInt("Choose a square between 1 and 9: ");
+      if (choice >= 1 && choice <= 9) break;
+
+      console.log("Sorry, that's not a valid choice.");
+      console.log("");
+    }
+
+    this.board.markSquareAt(choice, Square.HUMAN_MARKER);
   }
 
   computerMoves() {
