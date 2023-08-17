@@ -211,17 +211,11 @@ class TTTGame {
   }
 
   humanMoves() {
-    let choice;
     let validChoices = this.board.unusedSquares();
-    let prompt = `Choose a square (${Utils.joinOr(validChoices)}): `;
-
-    while (true) {
-      choice = readline.question(prompt);
-      if (validChoices.includes(choice)) break;
-
-      console.log("Sorry, that's not a valid choice.");
-      console.log("");
-    }
+    let choice = this.promptHuman(
+      `Choose a square (${Utils.joinOr(validChoices)}): `,
+      validChoices
+    );
 
     this.board.markSquareAt(choice, this.human.getMarker());
   }
@@ -236,6 +230,18 @@ class TTTGame {
     }
 
     this.board.markSquareAt(choice, this.computer.getMarker());
+  }
+
+  promptHuman(prompt, validChoices, ignoreCase = false) {
+    while (true) {
+      let choice = readline.question(prompt);
+      if (ignoreCase) choice = choice.toLowerCase();
+
+      if (validChoices.includes(choice)) return choice;
+
+      console.log("Sorry, that's not a valid choice.");
+      console.log("");
+    }
   }
 
   gameOver() {
