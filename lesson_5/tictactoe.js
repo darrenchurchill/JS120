@@ -11,6 +11,28 @@
 
 let readline = require("readline-sync");
 
+class Utils {
+  /**
+   * Return an array's string representation, joining elements with the
+   * delimiter string, and inserting the lastWord before the final element.
+   * @param {Array} array the array of elements
+   * @param {string} delimiter the delimiter string
+   * @param {string} lastWord the last word to insert (ex: `'or'` or `'and'`)
+   * @returns {string} the joined string
+   */
+  static joinOr(array, delimiter = ", ", lastWord = "or") {
+    if (array.length <= 1) return `${array.join(delimiter)}`;
+    if (array.length === 2) return `${array[0]} ${lastWord} ${array[1]}`;
+
+    let firstSlice = array.slice(0, array.length - 1).join(delimiter);
+    let lastElem = array[array.length - 1];
+
+    return (
+      `${firstSlice}${delimiter}${lastWord ? `${lastWord} ` : "" }${lastElem}`
+    );
+  }
+}
+
 class Square {
   static EMPTY_SQUARE = " ";
   static HUMAN_MARKER = "X";
@@ -191,7 +213,7 @@ class TTTGame {
   humanMoves() {
     let choice;
     let validChoices = this.board.unusedSquares();
-    let prompt = `Choose a square (${validChoices.join(", ")}): `;
+    let prompt = `Choose a square (${Utils.joinOr(validChoices)}): `;
 
     while (true) {
       choice = readline.question(prompt);
