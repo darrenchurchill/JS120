@@ -153,7 +153,24 @@ class TTTGame {
 
   play() {
     // orchestrate game play
-    this.displayWelcome();
+    let isFirstGame = true;
+
+    while (true) {
+      this.playRound(isFirstGame);
+      if (!this.shouldPlayAgain()) break;
+      this.reset();
+      isFirstGame = false;
+    }
+
+    this.displayGoodByeMessage();
+  }
+
+  playRound(isFirstGame) {
+    if (isFirstGame) {
+      this.displayWelcome();
+    } else {
+      this.displayGameBoard();
+    }
 
     while (true) {
       this.humanMoves();
@@ -166,7 +183,11 @@ class TTTGame {
     }
 
     this.displayResults();
-    this.displayGoodByeMessage();
+  }
+
+  reset() {
+    this.clearScreen();
+    this.board = new Board();
   }
 
   displayWelcomeMessage() {
@@ -230,6 +251,19 @@ class TTTGame {
     }
 
     this.board.markSquareAt(choice, this.computer.getMarker());
+  }
+
+  shouldPlayAgain() {
+    return this.promptPlayAgain() === "y";
+  }
+
+  promptPlayAgain() {
+    let validChoices = ["y", "n"];
+    return this.promptHuman(
+      `Would you like to play again? (${Utils.joinOr(validChoices)}): `,
+      validChoices,
+      true
+    );
   }
 
   promptHuman(prompt, validChoices, ignoreCase = false) {
