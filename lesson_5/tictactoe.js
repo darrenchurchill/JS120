@@ -243,14 +243,26 @@ class TTTGame {
 
   computerMoves() {
     let validChoices = this.board.unusedSquares();
-    let choice;
+    let choice = this.getWinningMoveFor(this.human);
 
-    while (true) {
+    while (!validChoices.includes(choice)) {
       choice = Math.floor((9 * Math.random()) + 1).toString();
-      if (validChoices.includes(choice)) break;
     }
 
     this.board.markSquareAt(choice, this.computer.getMarker());
+  }
+
+  getWinningMoveFor(player) {
+    let emptySquares = this.board.unusedSquares();
+
+    for (let line of TTTGame.WINNING_LINES) {
+      if (this.board.countSquaresFor(player, line) === line.length - 1) {
+        let square = line.filter((sqNum) => emptySquares.includes(sqNum))[0];
+        if (square !== undefined) return square;
+      }
+    }
+
+    return null;
   }
 
   shouldPlayAgain() {
