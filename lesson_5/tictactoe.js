@@ -133,16 +133,16 @@ class Computer extends Player {
 
 class TTTGame {
   static WINNING_LINES = [
-    [1, 2, 3],  // horizontal rows
-    [4, 5, 6],
-    [7, 8, 9],
+    ["1", "2", "3"],  // horizontal rows
+    ["4", "5", "6"],
+    ["7", "8", "9"],
 
-    [1, 4, 7],  // vertical columns
-    [2, 5, 8],
-    [3, 6, 9],
+    ["1", "4", "7"],  // vertical columns
+    ["2", "5", "8"],
+    ["3", "6", "9"],
 
-    [1, 5, 9],  // diagonals
-    [3, 5, 7]
+    ["1", "5", "9"],  // diagonals
+    ["3", "5", "7"]
   ];
 
   constructor() {
