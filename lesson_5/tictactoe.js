@@ -24,6 +24,10 @@ class Square {
     return this.marker;
   }
 
+  getMarker() {
+    return this.marker;
+  }
+
   setMarker(marker) {
     this.marker = marker;
   }
@@ -61,6 +65,12 @@ class Board {
 
   markSquareAt(key, marker) {
     this.squares[key].setMarker(marker);
+  }
+
+  countSquaresFor(player, sqNums) {
+    return sqNums.filter(
+      (sqNum) => this.squares[sqNum].getMarker() === player.getMarker()
+    ).length;
   }
 
   unusedSquares() {
@@ -104,6 +114,19 @@ class Computer extends Player {
 }
 
 class TTTGame {
+  static WINNING_LINES = [
+    [1, 2, 3],  // horizontal rows
+    [4, 5, 6],
+    [7, 8, 9],
+
+    [1, 4, 7],  // vertical columns
+    [2, 5, 8],
+    [3, 6, 9],
+
+    [1, 5, 9],  // diagonals
+    [3, 5, 7]
+  ];
+
   constructor() {
     this.board = new Board();
     this.human = new Human();
@@ -137,8 +160,16 @@ class TTTGame {
   }
 
   displayResults() {
-    // STUB
     // show the results of this game (win, lose, tie)
+    let winner = this.getWinner();
+
+    if (winner === this.human) {
+      console.log("You won! Congratulations!");
+    } else if (winner === this.computer) {
+      console.log("I won! I won! Take that, human!");
+    } else {
+      console.log("A tie game. How boring.");
+    }
   }
 
   humanMoves() {
@@ -173,9 +204,21 @@ class TTTGame {
     return this.board.isFull() || this.hasWinner();
   }
 
+  getWinner() {
+    for (let line of TTTGame.WINNING_LINES) {
+      if (this.board.countSquaresFor(this.human, line) === line.length) {
+        return this.human;
+      }
+      if (this.board.countSquaresFor(this.computer, line) === line.length) {
+        return this.computer;
+      }
+    }
+
+    return null;
+  }
+
   hasWinner() {
-    // STUB
-    return false;
+    return this.getWinner() !== null;
   }
 }
 
