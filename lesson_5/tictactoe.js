@@ -128,16 +128,16 @@ class TTTGame {
 
   play() {
     // orchestrate game play
-    this.displayWelcomeMessage();
+    this.displayWelcome();
 
     while (true) {
-      this.board.display();
-
       this.humanMoves();
       if (this.gameOver()) break;
 
       this.computerMoves();
       if (this.gameOver()) break;
+
+      this.displayGameBoard();
     }
 
     this.displayResults();
@@ -152,8 +152,22 @@ class TTTGame {
     console.log("Thanks for playing Tic Tac Toe! Goodbye!");
   }
 
+  displayWelcome() {
+    this.clearScreen();
+    this.displayWelcomeMessage();
+    this.board.display();
+  }
+
+  displayGameBoard() {
+    this.clearScreen();
+    console.log("");
+    this.board.display();
+  }
+
   displayResults() {
     // show the results of this game (win, lose, tie)
+    this.clearScreen();
+
     let winner = this.getWinner();
 
     if (winner === this.human) {
@@ -163,6 +177,12 @@ class TTTGame {
     } else {
       console.log("A tie game. How boring.");
     }
+
+    this.board.display();
+  }
+
+  clearScreen() {
+    console.clear();
   }
 
   humanMoves() {
