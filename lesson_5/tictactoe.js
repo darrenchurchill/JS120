@@ -84,13 +84,6 @@ class Board {
   }
 }
 
-class Row {
-  constructor() {
-    // STUB
-    // We need some way to identify a row of 3 squares
-  }
-}
-
 class Player {
   constructor(marker) {
     this.marker = marker;
