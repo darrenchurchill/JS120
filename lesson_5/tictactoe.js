@@ -39,6 +39,9 @@ class Square {
 
 class Board {
   constructor() {
+    /**
+     * @type {Object.<number, Square>}
+     */
     this.squares = {};
 
     for (let count = 1; count <= 9; count++) {
