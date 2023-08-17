@@ -68,6 +68,10 @@ class Board {
       (key) => this.squares[key].isUnused()
     );
   }
+
+  isFull() {
+    return this.unusedSquares().length === 0;
+  }
 }
 
 class Row {
@@ -166,12 +170,7 @@ class TTTGame {
   }
 
   gameOver() {
-    return this.isBoardFull() || this.hasWinner();
-  }
-
-  isBoardFull() {
-    // STUB
-    return false;
+    return this.board.isFull() || this.hasWinner();
   }
 
   hasWinner() {
