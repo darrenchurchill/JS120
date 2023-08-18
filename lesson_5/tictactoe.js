@@ -186,8 +186,10 @@ class TTTGame {
   playMatch(isFirstMatch) {
     let isFirstGame = isFirstMatch;
 
-    while (!this.hasMatchWinner()) {
+    while (true) {
       this.playRound(isFirstGame);
+      if (this.hasMatchWinner()) break;
+      this.waitForInput();
       this.resetRound();
       isFirstGame = false;
     }
@@ -223,6 +225,7 @@ class TTTGame {
   resetMatch() {
     this.human.reset();
     this.computer.reset();
+    this.resetRound();  // ensure the round is reset
   }
 
   displayWelcomeMessage() {
@@ -273,7 +276,6 @@ class TTTGame {
 
     this.displayMatchScore();
     this.board.display();
-    this.waitForInput();
   }
 
   displayMatchResults() {
