@@ -116,10 +116,23 @@ class Board {
 class Player {
   constructor(marker) {
     this.marker = marker;
+    this.numWins = 0;
   }
 
   getMarker() {
     return this.marker;
+  }
+
+  getNumWins() {
+    return this.numWins;
+  }
+
+  wonGame() {
+    this.numWins += 1;
+  }
+
+  reset() {
+    this.numWins = 0;
   }
 }
 
@@ -149,7 +162,8 @@ class TTTGame {
     ["3", "5", "7"]
   ];
 
-  constructor() {
+  constructor(numGamesPerMatch = 3) {
+    this.matchLength = numGamesPerMatch;
     this.board = new Board();
     this.human = new Human();
     this.computer = new Computer();
@@ -157,16 +171,28 @@ class TTTGame {
 
   play() {
     // orchestrate game play
-    let isFirstGame = true;
+    let isFirstMatch = true;
 
     while (true) {
-      this.playRound(isFirstGame);
+      this.playMatch(isFirstMatch);
       if (!this.shouldPlayAgain()) break;
-      this.reset();
-      isFirstGame = false;
+      this.resetMatch();
+      isFirstMatch = false;
     }
 
     this.displayGoodByeMessage();
+  }
+
+  playMatch(isFirstMatch) {
+    let isFirstGame = isFirstMatch;
+
+    while (!this.hasMatchWinner()) {
+      this.playRound(isFirstGame);
+      this.resetRound();
+      isFirstGame = false;
+    }
+
+    this.displayMatchResults();
   }
 
   playRound(isFirstGame) {
@@ -178,20 +204,25 @@ class TTTGame {
 
     while (true) {
       this.humanMoves();
-      if (this.gameOver()) break;
+      if (this.gameRoundOver()) break;
 
       this.computerMoves();
-      if (this.gameOver()) break;
+      if (this.gameRoundOver()) break;
 
       this.displayGameBoard();
     }
 
-    this.displayResults();
+    this.displayRoundResults();
   }
 
-  reset() {
+  resetRound() {
     this.clearScreen();
     this.board = new Board();
+  }
+
+  resetMatch() {
+    this.human.reset();
+    this.computer.reset();
   }
 
   displayWelcomeMessage() {
@@ -205,30 +236,54 @@ class TTTGame {
   displayWelcome() {
     this.clearScreen();
     this.displayWelcomeMessage();
+    this.displayMatchScore();
     this.board.display();
   }
 
   displayGameBoard() {
     this.clearScreen();
     console.log("");
+    this.displayMatchScore();
     this.board.display();
   }
 
-  displayResults() {
+  displayMatchScore() {
+    console.log(
+      "Match Score - ",
+      `Human: ${this.human.getNumWins()} `,
+      `Computer: ${this.computer.getNumWins()}`
+    );
+  }
+
+  displayRoundResults() {
     // show the results of this game (win, lose, tie)
     this.clearScreen();
 
-    let winner = this.getWinner();
+    let winner = this.getRoundWinner();
 
     if (winner === this.human) {
+      this.human.wonGame();
       console.log("You won! Congratulations!");
     } else if (winner === this.computer) {
+      this.computer.wonGame();
       console.log("I won! I won! Take that, human!");
     } else {
       console.log("A tie game. How boring.");
     }
 
+    this.displayMatchScore();
     this.board.display();
+    this.waitForInput();
+  }
+
+  displayMatchResults() {
+    let winner = this.getMatchWinner();
+
+    if (winner === this.human) {
+      console.log("You won the match!!!!");
+    } else if (winner === this.computer) {
+      console.log("Computer won the match!!!");
+    }
   }
 
   clearScreen() {
@@ -306,11 +361,15 @@ class TTTGame {
     }
   }
 
-  gameOver() {
-    return this.board.isFull() || this.hasWinner();
+  waitForInput() {
+    readline.keyInPause("Press any key to continue");
   }
 
-  getWinner() {
+  gameRoundOver() {
+    return this.board.isFull() || this.hasRoundWinner();
+  }
+
+  getRoundWinner() {
     for (let line of TTTGame.WINNING_LINES) {
       if (this.board.countSquaresFor(this.human, line) === line.length) {
         return this.human;
@@ -323,8 +382,18 @@ class TTTGame {
     return null;
   }
 
-  hasWinner() {
-    return this.getWinner() !== null;
+  hasRoundWinner() {
+    return this.getRoundWinner() !== null;
+  }
+
+  getMatchWinner() {
+    if (this.human.getNumWins() >= this.matchLength) return this.human;
+    if (this.computer.getNumWins() >= this.matchLength) return this.computer;
+    return null;
+  }
+
+  hasMatchWinner() {
+    return this.getMatchWinner() !== null;
   }
 }
 
