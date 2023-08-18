@@ -244,17 +244,14 @@ class TTTGame {
   computerMoves() {
     let validChoices = this.board.unusedSquares();
 
+    // offensive move
     let choice = this.getWinningMoveFor(this.computer);
-    if (choice !== null) {
-      this.board.markSquareAt(choice, this.computer.getMarker());
-      return;
-    }
-    choice = this.getWinningMoveFor(this.human);
-    if (choice !== null) {
-      this.board.markSquareAt(choice, this.computer.getMarker());
-      return;
+    if (choice === null) {
+      // defensive move
+      choice = this.getWinningMoveFor(this.human);
     }
 
+    // random move
     while (!validChoices.includes(choice)) {
       choice = Math.floor((9 * Math.random()) + 1).toString();
     }
