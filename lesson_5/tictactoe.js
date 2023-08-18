@@ -88,6 +88,10 @@ class Board {
     console.log("");
   }
 
+  size() {
+    return Object.keys(this.squares).length;
+  }
+
   markSquareAt(key, marker) {
     this.squares[key].setMarker(marker);
   }
@@ -249,6 +253,11 @@ class TTTGame {
     if (choice === null) {
       // defensive move
       choice = this.getWinningMoveFor(this.human);
+    }
+
+    if (choice === null) {
+      // choose center square, if it's available
+      choice = Math.ceil(this.board.size() / 2).toString();
     }
 
     // random move
