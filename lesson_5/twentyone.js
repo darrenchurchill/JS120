@@ -309,7 +309,17 @@ class TwentyOneGame {
   }
 
   dealerTurn() {
-    // STUB
+    if (this.player.isBusted()) return;
+    this.dealer.reveal();
+
+    while (true) {
+      this.showCards();
+      if (this.dealer.score() >= TwentyOneGame.DEALER_STAY_SCORE) {
+        this.dealer.stay();
+        return;
+      }
+      this.dealer.hit();
+    }
   }
 
   displayWelcomeMessage() {
