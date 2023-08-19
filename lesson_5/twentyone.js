@@ -155,7 +155,8 @@ class Player extends Participant {
   }
 
   hit() {
-    // STUB
+    let isFaceUp = true;
+    this.hand.push(this.dealer.deal(isFaceUp));
   }
 }
 
@@ -171,7 +172,8 @@ class Dealer extends Participant {
   }
 
   hit() {
-    // STUB
+    let isFaceUp = true;
+    this.hand.push(this.deal(isFaceUp));
   }
 
   hide() {
