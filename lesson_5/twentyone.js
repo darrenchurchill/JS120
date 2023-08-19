@@ -155,6 +155,8 @@ class Dealer extends Participant {
     // STUB
     // What sort of state does a dealer need?
     // Score? Hand? Deck of cards?
+    super();
+    this.deck = new TwentyOneDeck();
   }
 
   hit() {
@@ -184,6 +186,10 @@ class Dealer extends Participant {
   deal() {
     // STUB
     // Does the dealer or the deck deal cards?
+  }
+
+  shuffle() {
+    this.deck.shuffle();
   }
 }
 
