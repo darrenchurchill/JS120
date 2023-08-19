@@ -40,12 +40,21 @@ class Card {
 }
 
 class Deck {
+  static NUMERAL_RANKS = ["ace", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  static FACE_RANKS = ["jack", "queen", "king"];
+  static ALL_RANKS = Deck.NUMERAL_RANKS.concat(Deck.FACE_RANKS);
+  static SUITS = ["clubs", "diamonds", "hearts", "spades"];
+
   constructor() {
-    // STUB
-    // What sort of state does a deck need?
-    // 52 cards?
-    // We need some data structure to keep track of cards:
-    // - Array, Object, something else?
+    /** @type {Array.<Card>} */
+    this.deck = [];
+
+    for (let suit of Deck.SUITS) {
+      for (let rank of Deck.ALL_RANKS) {
+        this.deck.push(new Card(rank, suit));
+      }
+    }
+  }
   }
 
   deal() {
