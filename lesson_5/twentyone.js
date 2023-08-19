@@ -214,8 +214,8 @@ class TwentyOneGame {
   }
 
   start() {
-    // SPIKE
     this.displayWelcomeMessage();
+    this.dealer.shuffle();
     this.dealCards();
     this.showCards();
     this.playerTurn();
