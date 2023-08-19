@@ -118,19 +118,22 @@ class TwentyOneDeck extends Deck {
 }
 
 class Participant {
-  constructor() {
-    // STUB
+  constructor(objectScore) {
     // What sort of state does a participant need?
     // Score? Hand? Amount of money available?
     // What else goes here? All the redundant behaviors from Player and Dealer?
+    /** @type {Number} */
+    this.objectScore = objectScore;
+    /** @type {Array.<Card>} */
+    this.hand = [];
   }
 }
 
 class Player extends Participant {
-  constructor() {
-    // STUB
+  constructor(objectScore) {
     // What sort of state does a player need?
     // Score? Hand? Amount of money available?
+    super(objectScore);
   }
 
   hit() {
@@ -153,11 +156,10 @@ class Player extends Participant {
 class Dealer extends Participant {
   // Very similar to a Player; do we need this class?
 
-  constructor() {
-    // STUB
+  constructor(objectScore) {
     // What sort of state does a dealer need?
     // Score? Hand? Deck of cards?
-    super();
+    super(objectScore);
     this.deck = new TwentyOneDeck();
   }
 
@@ -195,10 +197,11 @@ class Dealer extends Participant {
 }
 
 class TwentyOneGame {
+  static OBJECT_SCORE = 21;
+
   constructor() {
-    // STUB
-    // What sort of state does the game need?
-    // A deck? Two participants?
+    this.dealer = new Dealer(TwentyOneGame.OBJECT_SCORE);
+    this.player = new Player(TwentyOneGame.OBJECT_SCORE);
   }
 
   start() {
