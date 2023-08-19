@@ -139,11 +139,11 @@ class TwentyOneGame {
   }
 
   displayWelcomeMessage() {
-    // STUB
+    console.log("Welcome to Twenty-One!\n");
   }
 
   displayGoodbyeMessage() {
-    // STUB
+    console.log("Goodbye! Thank you for playing.\n");
   }
 
   displayResult() {
