@@ -77,9 +77,11 @@ class Deck {
     }
   }
 
-  deal() {
-    // STUB
-    // does the dealer or the deck deal cards?
+  deal(isFaceUp = true) {
+    let card = this.deck.pop();
+    if (isFaceUp) card.turnFaceUp();
+    else card.turnFaceDown();
+    return card;
   }
 }
 
@@ -183,9 +185,8 @@ class Dealer extends Participant {
     // STUB
   }
 
-  deal() {
-    // STUB
-    // Does the dealer or the deck deal cards?
+  deal(isFaceUp = true) {
+    return this.deck.deal(isFaceUp);
   }
 
   shuffle() {
