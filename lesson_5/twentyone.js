@@ -143,10 +143,15 @@ class Participant {
 }
 
 class Player extends Participant {
-  constructor(objectScore) {
+  /**
+   * @param {Dealer} dealer
+   */
+  constructor(objectScore, dealer) {
     // What sort of state does a player need?
     // Score? Hand? Amount of money available?
     super(objectScore);
+    /** @type {Dealer} */
+    this.dealer = dealer;
   }
 
   hit() {
@@ -195,7 +200,7 @@ class TwentyOneGame {
       TwentyOneGame.OBJECT_SCORE,
       TwentyOneGame.DEALER_STAY_SCORE
     );
-    this.player = new Player(TwentyOneGame.OBJECT_SCORE);
+    this.player = new Player(TwentyOneGame.OBJECT_SCORE, this.dealer);
   }
 
   start() {
