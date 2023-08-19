@@ -39,6 +39,14 @@ class Card {
   }
 }
 
+class ValuedCard extends Card {
+  constructor(rank, suit, values) {
+    super(rank, suit);
+    /** @type {Array.<Number>} */
+    this.values = values;
+  }
+}
+
 class Deck {
   static NUMERAL_RANKS = ["ace", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   static FACE_RANKS = ["jack", "queen", "king"];
@@ -60,6 +68,38 @@ class Deck {
   deal() {
     // STUB
     // does the dealer or the deck deal cards?
+  }
+}
+
+class TwentyOneDeck extends Deck {
+  static ACE_VALUES = [1, 11];
+
+  constructor() {
+    super();  // we overwrite the deck property, but call super() anyway
+    /** @type {Array.<ValuedCard>} */
+    this.deck = [];
+
+    for (let suit of Deck.SUITS) {
+      for (let rank of Deck.ALL_RANKS) {
+        this.deck.push (new ValuedCard(rank, suit, this.valuesFromRank(rank)));
+      }
+    }
+  }
+
+  /**
+   *
+   * @param {String} rank the card rank to get the possible values for
+   * @returns {Array<Number>} the card rank's values. A 1 or 2 element array
+   */
+  valuesFromRank(rank) {
+    if (rank === Deck.NUMERAL_RANKS[0]) return TwentyOneDeck.ACE_VALUES.slice();
+
+    let val = parseInt(rank, 10);
+    if (val > 1 && val <= 10) return [val];
+
+    if (Deck.FACE_RANKS.includes(rank)) return [10];
+
+    throw new TypeError(`Unknown card rank: ${rank}`);
   }
 }
 
