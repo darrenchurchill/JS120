@@ -145,7 +145,7 @@ class Participant {
   }
 
   getHand() {
-    return this.hand.map((card) => card.toString()).join("\n");
+    return this.hand.map((card) => card.toString()).join(", ");
   }
 
   stay() {
