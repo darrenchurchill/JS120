@@ -204,6 +204,7 @@ class Player extends Participant {
 
 class Dealer extends Participant {
   // Very similar to a Player; do we need this class?
+  static TURN_SLEEP_DURATION = 1000;  // milliseconds
 
   constructor(objectScore, stayScore) {
     // What sort of state does a dealer need?
@@ -228,6 +229,14 @@ class Dealer extends Participant {
 
   reveal() {
     this.hand.forEach((card) => card.turnFaceUp());
+  }
+
+  sleep() {
+    const date = Date.now();
+    while (true) {
+      let curDate = Date.now();
+      if (curDate - date > Dealer.TURN_SLEEP_DURATION) return;
+    }
   }
 
   deal(isFaceUp = true) {
@@ -319,6 +328,7 @@ class TwentyOneGame {
         return;
       }
       this.dealer.hit();
+      this.dealer.sleep();
     }
   }
 
