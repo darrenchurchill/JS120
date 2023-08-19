@@ -258,10 +258,11 @@ class TwentyOneGame {
       TwentyOneGame.DEALER_STAY_SCORE
     );
     this.player = new Player(TwentyOneGame.OBJECT_SCORE, this.dealer);
+    this.shouldDisplayWelcome = true;
   }
 
   start() {
-    this.displayWelcomeMessage();
+    this.clearScreen();
     this.dealer.shuffle();
     this.dealCards();
     this.playerTurn();
@@ -280,23 +281,29 @@ class TwentyOneGame {
   }
 
   showCards() {
-    console.log("You have:");
+    this.displayTitleMessage();
+    console.log("Your hand:");
     console.log(this.player.getHand());
-    console.log(`Score: ${this.player.score()}`);
+    console.log(`Your score: ${this.player.score()}`);
     console.log("");
-    console.log("Dealer has:");
+    console.log("Dealer's hand:");
     console.log(this.dealer.getHand());
     if (!this.dealer.isHandHidden()) {
-      console.log(`Score: ${this.dealer.score()}`);
+      console.log(`Dealer's score: ${this.dealer.score()}`);
     } else {
       console.log("");
     }
+  }
+
+  clearScreen() {
+    console.clear();
   }
 
   playerTurn() {
     while (true) {
       this.showCards();
       let choice = this.promptPlayerChoice();
+      this.clearScreen();
       if (choice === "s") {
         this.player.stay();
         return;
@@ -332,6 +339,15 @@ class TwentyOneGame {
     }
   }
 
+  displayTitleMessage() {
+    if (this.shouldDisplayWelcome) {
+      this.displayWelcomeMessage();
+      this.shouldDisplayWelcome = false;
+    } else {
+      console.log("Twenty-One\n");
+    }
+  }
+
   displayWelcomeMessage() {
     console.log("Welcome to Twenty-One!\n");
   }
@@ -341,12 +357,13 @@ class TwentyOneGame {
   }
 
   displayResult() {
-    console.log("");
+    this.clearScreen();
 
     let playerScore = this.player.score();
     let dealerScore = this.dealer.score();
 
     this.showCards();
+    console.log("");
 
     if (this.player.isBusted()) {
       console.log("Sorry, you busted!");
