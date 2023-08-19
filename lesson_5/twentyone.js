@@ -272,9 +272,15 @@ class TwentyOneGame {
   showCards() {
     console.log("You have:");
     console.log(this.player.getHand());
+    console.log(`Score: ${this.player.score()}`);
     console.log("");
     console.log("Dealer has:");
     console.log(this.dealer.getHand());
+    if (!this.dealer.isHandHidden()) {
+      console.log(`Score: ${this.dealer.score()}`);
+    } else {
+      console.log("");
+    }
   }
 
   playerTurn() {
