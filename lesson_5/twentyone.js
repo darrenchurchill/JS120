@@ -331,7 +331,24 @@ class TwentyOneGame {
   }
 
   displayResult() {
-    // STUB
+    console.log("");
+
+    let playerScore = this.player.score();
+    let dealerScore = this.dealer.score();
+
+    this.showCards();
+
+    if (this.player.isBusted()) {
+      console.log("Sorry, you busted!");
+    } else if (this.dealer.isBusted()) {
+      console.log("Dealer busts! You win");
+    } else if (playerScore === dealerScore) {
+      console.log("It's a tie.");
+    } else if (playerScore > dealerScore) {
+      console.log("You win!");
+    } else {
+      console.log("Dealer wins.");
+    }
   }
 }
 
