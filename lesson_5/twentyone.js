@@ -10,10 +10,32 @@
  */
 
 class Card {
-  constructor() {
-    // STUB
-    // What sort of state does a card need?
-    // Rank? Suit? Points?
+  /**
+   *
+   * @param {String} rank
+   * @param {String} suit
+   * @param {Boolean} faceUp
+   */
+  constructor(rank, suit, faceUp = true) {
+    /** @type {String} */
+    this.rank = rank;
+    /** @type {String} */
+    this.suit = suit;
+    /** @type {Boolean} */
+    this.isFaceUp = faceUp;
+  }
+
+  toString() {
+    if (this.isFaceUp) return `${this.rank} of ${this.suit}`;
+    return "Unknown card.";
+  }
+
+  turnFaceUp() {
+    this.isFaceUp = true;
+  }
+
+  turnFaceDown() {
+    this.isFaceUp = false;
   }
 }
 
