@@ -63,6 +63,18 @@ class Deck {
       }
     }
   }
+
+  shuffle() {
+    let endIdx = this.deck.length;
+
+    while (endIdx > 0) {
+      let randIdx = Math.floor(Math.random() * endIdx);
+      endIdx -= 1;
+
+      [this.deck[randIdx], this.deck[endIdx]] = [
+        this.deck[endIdx], this.deck[randIdx]
+      ];
+    }
   }
 
   deal() {
