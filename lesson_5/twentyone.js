@@ -27,7 +27,8 @@ class Card {
 
   toString() {
     if (this.isFaceUp) return `${this.rank} of ${this.suit}`;
-    return "Unknown card.";
+    return "Unknown card";
+  }
   }
 
   turnFaceUp() {
