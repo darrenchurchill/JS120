@@ -9,6 +9,8 @@
  * A command-line game of Twenty-One (simplified BlackJack)
  */
 
+const readline = require("readline-sync");
+
 class Card {
   /**
    *
@@ -253,7 +255,6 @@ class TwentyOneGame {
     this.displayWelcomeMessage();
     this.dealer.shuffle();
     this.dealCards();
-    this.showCards();
     this.playerTurn();
     this.dealerTurn();
     this.displayResult();
@@ -284,7 +285,27 @@ class TwentyOneGame {
   }
 
   playerTurn() {
-    // STUB
+    while (true) {
+      this.showCards();
+      let choice = this.promptPlayerChoice();
+      if (choice === "s") {
+        this.player.stay();
+        return;
+      }
+      if (choice === "h") this.player.hit();
+      if (this.player.isBusted()) return;
+    }
+  }
+
+  promptPlayerChoice() {
+    let validChoices = ["h", "s"];
+    let choice;
+
+    while (true) {
+      choice = readline.question("(h)it or (s)tay? ").toLowerCase();
+      if (validChoices.includes(choice)) return choice;
+      console.log("That isn't a valid choice.");
+    }
   }
 
   dealerTurn() {
