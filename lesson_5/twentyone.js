@@ -173,7 +173,7 @@ class Dealer extends Participant {
   }
 
   reveal() {
-    // STUB
+    this.hand.forEach((card) => card.turnFaceUp());
   }
 
   deal(isFaceUp = true) {
