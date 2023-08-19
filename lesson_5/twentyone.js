@@ -40,10 +40,21 @@ class Card {
 }
 
 class ValuedCard extends Card {
+  // TODO: Remove this class and give all cards a default value?
+  // If the Card class had a setValue/s(values) method, then any deck requiring
+  // different values could modify them. Or allow the value in the constructor
   constructor(rank, suit, values) {
     super(rank, suit);
     /** @type {Array.<Number>} */
     this.values = values;
+  }
+
+  getMinValue() {
+    return Math.min(...this.values);
+  }
+
+  getMaxValue() {
+    return Math.max(...this.values);
   }
 }
 
@@ -146,7 +157,24 @@ class Participant {
   }
 
   score() {
-    // STUB
+    let scores = [0];  // there's always at least 1 possible score for a hand
+
+    for (let card of this.hand) {
+      let min = card.getMinValue();
+      let max = card.getMaxValue();
+
+      if (min === max) scores = scores.map((score) => score + min);
+      else {
+        scores = scores.map((score) => score + min).concat(
+          scores.map((score) => score + max)
+        );
+      }
+    }
+
+    return scores.reduce((highest, score) => {
+      if (score <= this.objectScore && score > highest) return score;
+      return highest;
+    });
   }
 }
 
