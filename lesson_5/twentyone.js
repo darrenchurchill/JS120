@@ -29,6 +29,9 @@ class Card {
     if (this.isFaceUp) return `${this.rank} of ${this.suit}`;
     return "Unknown card";
   }
+
+  isHidden() {
+    return !this.isFaceUp;
   }
 
   turnFaceUp() {
@@ -215,6 +218,10 @@ class Dealer extends Participant {
 
   hide() {
     // STUB
+  }
+
+  isHandHidden() {
+    return this.hand.some((card) => card.isHidden());
   }
 
   reveal() {
