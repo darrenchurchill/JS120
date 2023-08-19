@@ -128,6 +128,14 @@ class Participant {
     this.hand = [];
   }
 
+  addToHand(card) {
+    this.hand.push(card);
+  }
+
+  getHand() {
+    return this.hand.map((card) => card.toString()).join("\n");
+  }
+
   stay() {
     // STUB
     // Do nothing?
@@ -156,7 +164,7 @@ class Player extends Participant {
 
   hit() {
     let isFaceUp = true;
-    this.hand.push(this.dealer.deal(isFaceUp));
+    this.addToHand(this.dealer.deal(isFaceUp));
   }
 }
 
@@ -173,7 +181,7 @@ class Dealer extends Participant {
 
   hit() {
     let isFaceUp = true;
-    this.hand.push(this.deal(isFaceUp));
+    this.addToHand(this.deal(isFaceUp));
   }
 
   hide() {
@@ -217,11 +225,20 @@ class TwentyOneGame {
   }
 
   dealCards() {
-    // STUB
+    let isFaceUp = true;
+    this.player.addToHand(this.dealer.deal(isFaceUp));
+    this.dealer.addToHand(this.dealer.deal(!isFaceUp));
+
+    this.player.addToHand(this.dealer.deal(isFaceUp));
+    this.dealer.addToHand(this.dealer.deal(isFaceUp));
   }
 
   showCards() {
-    // STUB
+    console.log("You have:");
+    console.log(this.player.getHand());
+    console.log("");
+    console.log("Dealer has:");
+    console.log(this.dealer.getHand());
   }
 
   playerTurn() {
