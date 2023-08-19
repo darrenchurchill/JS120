@@ -127,6 +127,19 @@ class Participant {
     /** @type {Array.<Card>} */
     this.hand = [];
   }
+
+  stay() {
+    // STUB
+    // Do nothing?
+  }
+
+  isBusted() {
+    return this.score() > this.objectScore;
+  }
+
+  score() {
+    // STUB
+  }
 }
 
 class Player extends Participant {
@@ -137,18 +150,6 @@ class Player extends Participant {
   }
 
   hit() {
-    // STUB
-  }
-
-  stay() {
-    // STUB
-  }
-
-  isBusted() {
-    // STUB
-  }
-
-  score() {
     // STUB
   }
 }
@@ -164,18 +165,6 @@ class Dealer extends Participant {
   }
 
   hit() {
-    // STUB
-  }
-
-  stay() {
-    // STUB
-  }
-
-  isBusted() {
-    // STUB
-  }
-
-  score() {
     // STUB
   }
 
