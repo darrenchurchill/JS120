@@ -157,10 +157,11 @@ class Player extends Participant {
 class Dealer extends Participant {
   // Very similar to a Player; do we need this class?
 
-  constructor(objectScore) {
+  constructor(objectScore, stayScore) {
     // What sort of state does a dealer need?
     // Score? Hand? Deck of cards?
     super(objectScore);
+    this.stayScore = stayScore;
     this.deck = new TwentyOneDeck();
   }
 
@@ -187,9 +188,13 @@ class Dealer extends Participant {
 
 class TwentyOneGame {
   static OBJECT_SCORE = 21;
+  static DEALER_STAY_SCORE = 17;
 
   constructor() {
-    this.dealer = new Dealer(TwentyOneGame.OBJECT_SCORE);
+    this.dealer = new Dealer(
+      TwentyOneGame.OBJECT_SCORE,
+      TwentyOneGame.DEALER_STAY_SCORE
+    );
     this.player = new Player(TwentyOneGame.OBJECT_SCORE);
   }
 
