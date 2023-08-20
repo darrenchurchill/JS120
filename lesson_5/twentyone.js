@@ -94,6 +94,10 @@ class Deck {
     }
   }
 
+  returnCards(cards) {
+    this.deck.push(...cards);
+  }
+
   deal(isFaceUp = true) {
     let card = this.deck.pop();
     if (isFaceUp) card.turnFaceUp();
@@ -160,6 +164,12 @@ class Participant {
 
   isBusted() {
     return this.score() > this.objectScore;
+  }
+
+  discardHand() {
+    let discarded = this.hand;
+    this.hand = [];
+    return discarded;
   }
 
   score() {
@@ -237,6 +247,10 @@ class Dealer extends Participant {
       let curDate = Date.now();
       if (curDate - date > Dealer.TURN_SLEEP_DURATION) return;
     }
+  }
+
+  returnCardsToDeck(cards) {
+    this.deck.returnCards(cards);
   }
 
   deal(isFaceUp = true) {
