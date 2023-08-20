@@ -198,12 +198,33 @@ class Player extends Participant {
   /**
    * @param {Dealer} dealer
    */
-  constructor(objectScore, dealer) {
+  constructor(objectScore, dealer, initialDollars = 5) {
     // What sort of state does a player need?
     // Score? Hand? Amount of money available?
     super(objectScore);
     /** @type {Dealer} */
     this.dealer = dealer;
+    this.winnings = initialDollars;
+  }
+
+  getCurWinnings() {
+    return this.winnings;
+  }
+
+  isBroke() {
+    return this.winnings === 0;
+  }
+
+  isRich() {
+    return this.winnings >= 10;
+  }
+
+  wonGame(betSize = 1) {
+    this.winnings += betSize;
+  }
+
+  lostGame(betSize = 1) {
+    this.winnings -= betSize;
   }
 
   hit() {
@@ -288,6 +309,14 @@ class TwentyOneGame {
       this.dealerTurn();
       this.displayResult();
 
+      if (this.player.isBroke()) {
+        console.log("You're out of money!");
+        return;
+      }
+      if (this.player.isRich()) {
+        console.log("You're rich! Quit while you're ahead.");
+        return;
+      }
       if (!this.shouldPlayAgain()) return;
 
       this.returnCardsToDeck();
@@ -309,6 +338,7 @@ class TwentyOneGame {
   }
 
   showCards() {
+    this.clearScreen();
     this.displayTitleMessage();
     console.log("Your hand:");
     console.log(this.player.getHand());
@@ -384,38 +414,44 @@ class TwentyOneGame {
       this.displayWelcomeMessage();
       this.shouldDisplayWelcome = false;
     } else {
-      console.log("Twenty-One\n");
+      console.log("Twenty-One");
     }
+    console.log(`Your current winnings: $${this.player.getCurWinnings()}\n`);
   }
 
   displayWelcomeMessage() {
-    console.log("Welcome to Twenty-One!\n");
+    console.log("Welcome to Twenty-One!");
   }
 
   displayGoodbyeMessage() {
     console.log("Goodbye! Thank you for playing.\n");
   }
 
+  // eslint-disable-next-line max-lines-per-function, max-statements
   displayResult() {
-    this.clearScreen();
-
     let playerScore = this.player.score();
     let dealerScore = this.dealer.score();
+    let msg = "";
+
+    if (this.player.isBusted()) {
+      msg = "Sorry, you busted!";
+      this.player.lostGame();
+    } else if (this.dealer.isBusted()) {
+      msg = "Dealer busts! You win";
+      this.player.wonGame();
+    } else if (playerScore === dealerScore) {
+      msg = "It's a tie.";
+    } else if (playerScore > dealerScore) {
+      msg = "You win!";
+      this.player.wonGame();
+    } else {
+      msg = "Dealer wins.";
+      this.player.lostGame();
+    }
 
     this.showCards();
     console.log("");
-
-    if (this.player.isBusted()) {
-      console.log("Sorry, you busted!");
-    } else if (this.dealer.isBusted()) {
-      console.log("Dealer busts! You win");
-    } else if (playerScore === dealerScore) {
-      console.log("It's a tie.");
-    } else if (playerScore > dealerScore) {
-      console.log("You win!");
-    } else {
-      console.log("Dealer wins.");
-    }
+    console.log(msg);
   }
 }
 
