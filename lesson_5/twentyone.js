@@ -158,8 +158,7 @@ class Participant {
   }
 
   stay() {
-    // STUB
-    // Do nothing?
+    // Do nothing
   }
 
   isBusted() {
