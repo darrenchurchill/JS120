@@ -276,13 +276,27 @@ class TwentyOneGame {
   }
 
   start() {
-    this.clearScreen();
-    this.dealer.shuffle();
-    this.dealCards();
-    this.playerTurn();
-    this.dealerTurn();
-    this.displayResult();
+    this.play();
     this.displayGoodbyeMessage();
+  }
+
+  play() {
+    while (true) {
+      this.dealer.shuffle();
+      this.dealCards();
+      this.playerTurn();
+      this.dealerTurn();
+      this.displayResult();
+
+      if (!this.shouldPlayAgain()) return;
+
+      this.returnCardsToDeck();
+    }
+  }
+
+  returnCardsToDeck() {
+    this.dealer.returnCardsToDeck(this.player.discardHand());
+    this.dealer.returnCardsToDeck(this.dealer.discardHand());
   }
 
   dealCards() {
@@ -327,15 +341,27 @@ class TwentyOneGame {
     }
   }
 
-  promptPlayerChoice() {
-    let validChoices = ["h", "s"];
+  promptPlayer(msg, choices) {
     let choice;
 
     while (true) {
-      choice = readline.question("(h)it or (s)tay? ").toLowerCase();
-      if (validChoices.includes(choice)) return choice;
+      choice = readline.question(msg).toLowerCase();
+      if (choices.includes(choice)) return choice;
       console.log("That isn't a valid choice.");
     }
+  }
+
+  shouldPlayAgain() {
+    return this.promptPlayAgain() === "y";
+  }
+
+  promptPlayAgain() {
+    return this.promptPlayer("Play again? (y, n) ", ["y", "n"]);
+  }
+
+  promptPlayerChoice() {
+    console.log("");
+    return this.promptPlayer("(h)it or (s)tay? ", ["h", "s"]);
   }
 
   dealerTurn() {
