@@ -250,10 +250,6 @@ class Dealer extends Participant {
     this.addToHand(this.deal(isFaceUp));
   }
 
-  hide() {
-    // STUB
-  }
-
   isHandHidden() {
     return this.hand.some((card) => card.isHidden());
   }
